@@ -9,7 +9,7 @@ const searchParams = new URLSearchParams({
     per_page: itemsPerPage,
 });
 
-export const BASE_URL = 'https://pixabay.com/api/?key=30167206-9cd8436e9cf02f01e1d7e25e7&q=${searchParams}';
+export const BASE_URL = `https://pixabay.com/api/?key=30167206-9cd8436e9cf02f01e1d7e25e7&q=${searchParams}`;
 export async function getPhoto(search, page) {
     try {
         if (!search.trim()) {
