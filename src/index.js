@@ -1,5 +1,5 @@
 import './css/styles.css';
-// import SimpleLightbox from "simplelightbox";
+import SimpleLightbox from "simplelightbox";
 import Notiflix from 'notiflix';
 // Дополнительный импорт стилей
 import "simplelightbox/dist/simple-lightbox.min.css";
@@ -15,7 +15,6 @@ let searchVal;
 formEl.addEventListener('submit', onSubmit);
 loadMore.addEventListener('click', onLoadMoreClick);
 
-
 async function onLoadMoreClick() {
     page += 1;
   const data = await getPhoto(searchVal, page);
@@ -26,15 +25,19 @@ async function onLoadMoreClick() {
     // });
   if (page === totalPages) {
       Notiflix.Notify.info('We are sorry, but you have reached the end of search results.')
-        loadMore.classList.add('visually-hidden')
+      loadMore.classList.add('visually-hidden')
     }
 }
 
 function onSubmit(event) {
     event.preventDefault();
     clearMarkup(galleryEl);
-    searchVal = event.currentTarget[0].value;
-    amountData(searchVal)
+    searchVal = event.currentTarget.searchQuery.value.trim();
+  if (!searchVal) {
+    loadMore.classList.add('visually-hidden')
+    return;
+  }
+  amountData(searchVal);
 }
 
 async function amountData(searchVal) {
@@ -49,6 +52,7 @@ async function amountData(searchVal) {
         //     creatCard(photo)
         // });
     } catch (error) {
+      Notiflix.Notify.failure(error.message)
     console.log(error)}
 };
 function creatCards(cardsArray) {

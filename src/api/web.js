@@ -12,11 +12,10 @@ const searchParams = new URLSearchParams({
 export const BASE_URL = `https://pixabay.com/api/?key=30167206-9cd8436e9cf02f01e1d7e25e7&q=${searchParams}`;
 export async function getPhoto(search, page) {
     try {
-        if (!search.trim()) {
-            console.log('no images');
-            return;
-        }
         const response = await axios.get(`${BASE_URL}&page=${page}&q=${search}`);
+        if (!search) {
+            throw new Error(error);
+        }
         return response.data;
     } catch (error) {
         Notiflix.Notify.failure(error.message);
